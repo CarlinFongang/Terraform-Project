@@ -1,0 +1,8 @@
+.terraform.lock.hcl
+**.terraform/
+terraform.tfstate.backup
+terraform.tfstate
+terraform-provider-aws_v5.38.0_x5.exe
+secret/
+info_ec2-tf.txt
+modules/ec2-modules/secret/

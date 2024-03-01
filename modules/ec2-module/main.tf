@@ -1,4 +1,4 @@
-data "aws_ami" "app_ami" {
+data "aws_ami" "ami_name" {
   most_recent = true
   owners      = ["amazon"]
   filter {
@@ -7,12 +7,12 @@ data "aws_ami" "app_ami" {
   }
 }
 
-resource "aws_instance" "ec2-tf" {
-  ami             = data.aws_ami.app_ami.id
+resource "aws_instance" "ec2_ressource" {
+  ami             = data.aws_ami.ami_name.id
   instance_type   = var.instance_type
   key_name        = "devops-aCD"
-  tags            = var.aws_common_tag
-  security_groups = ["${aws_security_group.allow_ssh_http_https.name}"]
+  tags            = var.aws_ec2_tag
+  security_groups = ["${aws_security_group.sg_protocol_ressource.name}"]
 
   provisioner "remote-exec" {
     inline = [ 
@@ -24,13 +24,13 @@ resource "aws_instance" "ec2-tf" {
   connection {
     type = "ssh"
     user = "ubuntu"
-    private_key = file("C:/Users/Kusuka.fr/OneDrive - data5tb/Formations/BootCamp DevOps 17/cursus-devops/Terraform/lab6-modules/secret/devops-aCD.pem")
+    private_key = file("C:/Users/Kusuka.fr/OneDrive - data5tb/Formations/BootCamp DevOps 17/cursus-devops/Terraform/terraform-project/secret/devops-aCD.pem")
     host = self.public_ip
     }
   }
 }
 
-resource "aws_security_group" "allow_ssh_http_https" {
+resource "aws_security_group" "sg_protocol_ressource" {
   name        = var.sg_name
   description = "Allow HTTP and HTTPS inbound traffic and all outbound traffic"
 
@@ -63,10 +63,10 @@ resource "aws_security_group" "allow_ssh_http_https" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
-resource "aws_eip" "lb" {
-  instance = aws_instance.ec2-tf.id
+resource "aws_eip" "eip_ressource" {
+  instance = aws_instance.ec2_ressource.id
   domain   = "vpc"
   provisioner "local-exec" {
-    command = "echo PUBLIC IP: ${self.public_ip}; ID: ${aws_instance.ec2-tf.id}; AZ: ${aws_instance.ec2-tf.availability_zone} > info_ec2-tf.txt"
+    command = "echo PUBLIC IP: ${self.public_ip}; ID: ${aws_instance.ec2_ressource.id}; AZ: ${aws_instance.ec2_ressource.availability_zone} > info_ec2-tf.txt"
   }
 }

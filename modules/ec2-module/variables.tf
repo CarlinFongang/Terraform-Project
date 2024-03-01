@@ -10,7 +10,7 @@ variable "sg_name" {
   default     = "aCD-sg"
 }
 
-variable "aws_common_tag" {
+variable "aws_ec2_tag" {
   type        = map(any)
   description = "Common tag for resources"
   default = {

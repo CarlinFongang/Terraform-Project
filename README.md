@@ -23,21 +23,18 @@ Dans ce mini projet, nous allons explorer le processus de déploiement d'une app
 
 ## Plan d'exécution
 
-1. **Création d'une Instance EC2 :** Nous allons écrire un module Terraform pour créer une instance EC2 utilisant la dernière version d'Ubuntu. Ce module permettra de spécifier le type d'instance et le tag (nom) comme variables pour une personnalisation flexible.
+1. **Création d'une Instance EC2 :** Nous allons écrire un module Terraform pour créer une instance EC2 utilisant  **ubuntu-jammy-22.04**. Ce module permettra de spécifier le type d'instance et le tag (nom) comme variables pour une personnalisation flexible.__
 
-2. **Création d'un Volume EBS :** Un autre module sera développé pour créer un volume EBS avec une taille variable, offrant ainsi une gestion efficace du stockage pour notre application.
+2. **Création d'un Volume EBS :** Un autre module sera développé pour créer un volume EBS avec une taille variable, offrant ainsi une gestion efficace du stockage pour notre application.__
 
-3. **Attribution d'une Adresse IP Publique :** Nous allons définir un module pour une adresse IP publique qui sera attachée au groupe de sécurité, assurant une connectivité externe à notre application.
+3. **Attribution d'une Adresse IP Publique :** Nous allons définir un module pour une adresse IP publique qui sera attachée au groupe de sécurité, assurant une connectivité externe à notre application.__
 
-4. **Configuration d'un Groupe de Sécurité :** Un autre module sera dédié à la création d'un groupe de sécurité, permettant l'ouverture des ports 80 et 443 pour le trafic web.
+4. **Configuration d'un Groupe de Sécurité :** Un autre module sera dédié à la création d'un groupe de sécurité, permettant l'ouverture des ports 80 et 443 pour le trafic web.__
 
-5. **Déploiement de l'Application :** Nous allons organiser ces modules dans un dossier "app" pour simplifier le déploiement de notre application. Nous personnaliserons les variables pour rendre le processus de déploiement plus dynamique et adaptable.
+5. **Déploiement de l'Application :** Nous allons organiser ces modules dans un dossier "modules" pour simplifier le déploiement de notre application. Nous personnaliserons les variables pour rendre le processus de déploiement plus dynamique et adaptable.
 
 6. **Installation de Nginx :** Enfin, nous allons intégrer l'installation de Nginx à la fin du déploiement en le configurant comme rôle de l'instance EC2.
 
 7. **Enregistrement de l'Adresse IP Publique :** Pour une gestion pratique, nous enregistrerons l'adresse IP publique dans un fichier nommé "ip_ec2.txt" pour une référence ultérieure.
 
-
-
-## 
 

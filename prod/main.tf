@@ -1,24 +1,47 @@
 provider "aws" {
   region     = "us-east-1"
-  access_key = "AKIASW5DVDMAVLHX2FAQ"
-  secret_key = "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"
 }
 
 terraform {
   backend "s3" {
-    bucket = "tf-backend-acd-1"
-    key = "acd-prod.tfstates"
+    bucket = "backend-acd"
+    key = "prod-acd.tfstates"
     region = "us-east-1"
-    access_key = "AKIASW5DVDMAVLHX2FAQ"
-    secret_key = "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"
   }
 }
 
-module "ec2" {
+module "ec2_instance" {
   source = "../modules/ec2-module"
   instance_type = "t3.medium"
-  aws_common_tag = {
+  sg_att_id = module.sg.output_sg_id
+  aws_ec2_tag = {
     Name = "ec2-prod-aCD"
   }
-  sg_name = "prod-aCD-sg"
+}
+
+module "ebs_volume" {
+  source       = "../modules/ebs-module"
+  az_ebs       = module.ec2_instance.ec2_az_output  
+  size_ebs     = 44
+  type_ebs     = "gp2"  
+  name_ebs     = "ebs-prod-aCD"
+  ec2_id_ebs   = module.ec2_instance.ec2_id_output 
+  device_name_ebs = "/dev/sdf"
+}
+
+module "eip_address" {
+  source = "../modules/eip-module"
+  eip_name = "eip-prod-aCD"
+  ec2_id = module.ec2_instance.ec2_id_output
+}
+
+resource "null_resource" "export_info" {
+    provisioner "local-exec" {
+    command = "echo PUBLIC IP : ${module.eip_address.eip_output}; ID: ${module.ec2_instance.ec2_id_output}; AZ: ${module.ec2_instance.ec2_az_output} > info_prod_aCD.txt"
+  }  
+}
+
+module "sg" {
+  source = "../modules/sg-module"
+  name_sg = "prod-sg-aCD"
 }

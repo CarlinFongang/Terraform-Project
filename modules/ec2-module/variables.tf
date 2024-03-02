@@ -1,14 +1,11 @@
+#ec2-module variables
 variable "instance_type" {
   type        = string
   description = "set aws instance type"
   default     = "t2.nano"
 }
 
-variable "sg_name" {
-  type        = string
-  description = "set sg name"
-  default     = "aCD-sg"
-}
+
 
 variable "aws_ec2_tag" {
   type        = map(any)
@@ -18,4 +15,7 @@ variable "aws_ec2_tag" {
   }
 }
 
-
+variable "sg_att_id" {
+  type = string
+  description = "security group ID"
+}

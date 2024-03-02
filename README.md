@@ -37,7 +37,7 @@ Dans ce mini projet, nous allons explorer le processus de déploiement d'une app
 
 7. **Installation de Nginx :** Enfin, nous allons intégrer l'installation de Nginx à la fin du déploiement en le configurant comme rôle de l'instance EC2.
 
-7. **Enregistrement de l'Adresse IP Publique :** Pour une gestion pratique, nous enregistrerons l'adresse IP publique dans un fichier nommé "ip_ec2.txt" pour une référence ultérieure.
+8. **Enregistrement de l'Adresse IP Publique :** Pour une gestion pratique, nous enregistrerons l'adresse IP publique dans un fichier nommé "ip_ec2.txt" pour une référence ultérieure.
 
 
 ## Prerequis 

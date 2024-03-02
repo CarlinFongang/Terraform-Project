@@ -1,7 +1,7 @@
 #ec2-module
 data "aws_ami" "ami_name" {
   most_recent = true
-  owners      = ["amazon"] #Canonical
+  owners      = ["amazon"]
   filter {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]

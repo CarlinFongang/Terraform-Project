@@ -5,3 +5,4 @@ variable "ec2_id" {
 variable "eip_name" {
   description = "The name tag of eip"
 }
+

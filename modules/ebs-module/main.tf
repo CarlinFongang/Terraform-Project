@@ -16,3 +16,4 @@ resource "aws_volume_attachment" "ebs_attach_ressource" {
   instance_id = var.ec2_id_ebs
   force_detach = true
 }
+

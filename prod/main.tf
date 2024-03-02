@@ -4,9 +4,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "backend-acd"
+    bucket = "backend-acd-1"
     key = "prod-acd.tfstates"
-    region = "us-east-1"
+    region = "us-east-1" 
   }
 }
 
@@ -15,23 +15,23 @@ module "ec2_instance" {
   instance_type = "t3.medium"
   sg_att_id = module.sg.output_sg_id
   aws_ec2_tag = {
-    Name = "ec2-prod-aCD"
+    Name = "prod-aCD-ec2"
   }
 }
 
 module "ebs_volume" {
   source       = "../modules/ebs-module"
   az_ebs       = module.ec2_instance.ec2_az_output  
-  size_ebs     = 44
+  size_ebs     = 44.0  
   type_ebs     = "gp2"  
-  name_ebs     = "ebs-prod-aCD"
+  name_ebs     = "prod-aCD-ebs"
   ec2_id_ebs   = module.ec2_instance.ec2_id_output 
   device_name_ebs = "/dev/sdf"
 }
 
 module "eip_address" {
   source = "../modules/eip-module"
-  eip_name = "eip-prod-aCD"
+  eip_name = "prod-aCD-eip"
   ec2_id = module.ec2_instance.ec2_id_output
 }
 
@@ -43,5 +43,5 @@ resource "null_resource" "export_info" {
 
 module "sg" {
   source = "../modules/sg-module"
-  name_sg = "prod-sg-aCD"
+  name_sg = "prod-aCD-sg"
 }

@@ -5,5 +5,3 @@ resource "aws_eip" "eip_ressource" {
     Name = var.eip_name
   }
 }
-
-

@@ -18,7 +18,7 @@ _______
 Terraform est un outil open-source développé par HashiCorp qui permet de provisionner et de gérer l'infrastructure informatique de manière déclarative et codée. Conçu pour fonctionner avec une variété de fournisseurs de services cloud, y compris AWS, Azure, Google Cloud, et bien d'autres, Terraform permet aux équipes informatiques de définir leur infrastructure comme du code.
 
 ## Contexte
-Dans ce mini projet, nous allons explorer le processus de déploiement d'une application web sur Amazon Web Services (AWS) en utilisant Terraform pour automatiser la création et la configuration des ressources nécessaires. Notre objectif étant de créer une infrastructure replicable facilement et hébergent le serveur web nginx. On mettra egalement un point d'honneur sur la sécurité en s'assurant qu'aucune information sensible n'est exposée.
+Dans ce mini projet, nous allons explorer le processus de déploiement d'une serveur web sur Amazon Web Services (AWS) en utilisant Terraform pour automatiser la création et la configuration des ressources nécessaires. Notre objectif étant de créer une infrastructure replicable facilement et hébergent le serveur web nginx. On mettra egalement un point d'honneur sur la sécurité en s'assurant qu'aucune information sensible n'est exposée.
 
 
 ## Plan d'exécution

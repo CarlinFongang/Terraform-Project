@@ -536,6 +536,15 @@ Sortie console
 >![alt text](img/image-19.png)
 *Stockage EBS provisionné*
 
+>![alt text](img/image-22.png)
+*Sécurity groups crée avec les tag prod*
+
+>![alt text](img/image-24.png)
+*eip provisionné*
+
+>![alt text](img/image-23.png)
+*backend stocké sur le s3*
+
 6. Test de Nginx depuis un navigateur
 >![alt text](img/image-20.png)
 *Réponse du serveur web Nginx*

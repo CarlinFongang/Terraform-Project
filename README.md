@@ -47,7 +47,7 @@ Dans ce mini projet, nous allons explorer le processus de déploiement d'une app
 
 ## Définition de l'architecture du l'IaC
 Voici une représentation imagé de l'organisation de notre code d'infra à la fin de la création des différents modules
-![alt text](image-1.png)
+>![alt text](img/image-1.png)
 
 
 ## Création des modules
@@ -56,7 +56,7 @@ Pour débuter la création des modules sous Terraform, nous allons créer un dos
 Dans ce dossier principal, nous allons créer le dossier **modules** qui va contenir l'ensemble des modules **ec2-module**, **ebs-module**, **eip-module** et **sg-module** qui vont être décrits dans la suite de cette procédure.
 
 L'on obtiendra alors le résultat ci-dessous :
-![alt text](image-2.png)
+>![alt text](img/image-2.png)
 
 ### 1. Module "ec2-module"
 L'utilisation d'instances EC2 comme module dans Terraform permet une gestion automatisée et reproductible des ressources de calcul dans le cloud AWS. Cela facilite le déploiement rapide d'environnements et assure une configuration cohérente, améliorant l'efficacité et réduisant les erreurs manuelles. Pour configurer ce module, nous allons :
@@ -340,7 +340,7 @@ terraform init
 ````
 
 Sortie console 
-![alt text](image-3.png)
+>![alt text](img/image-3.png)
 *Sortie console après un **terraform init***
 
 2. Vérification de la cohérence de l'IaC
@@ -349,7 +349,7 @@ terraform validate
 ````
 
 Sortie console 
-![alt text](image-4.png)
+>![alt text](img/image-4.png)
 *Sortie console après **terraform validate***
 
 3. Planification des ressources
@@ -358,7 +358,7 @@ terraform plan
 ````
 
 Sortie console 
-![alt text](image-5.png)
+>![alt text](img/image-5.png)
 *Sortie console après **terraform plan***
 
 4. Provisionnement de l'infrastructure
@@ -367,33 +367,33 @@ terraform apply
 ````
 
 Sortie console 
-![alt text](image-6.png)
+>![alt text](img/image-6.png)
 *Connexion à l'instance provisionnée*
 
-![alt text](image-7.png)
+>![alt text](img/image-7.png)
 *Fin du provisionnement*
 
 
 5. Rendu/Résultat du provisionnement 
 
 L'instance a bien été créée avec les caractéristiques attendues : **t2.micro**, **key pair** défini, **AMI** défini et autres.
-![alt text](image-8.png)
+>![alt text](img/image-8.png)
 *EC2 en cours d'exécution*
 
 Le stockage de type **EBS** de 8.0 Go a bien été créé.
-![alt text](image-9.png)
+>![alt text](img/image-9.png)
 
 L'EIP avec le tag **dev-aCD-eip** a bien été créé.
-![alt text](image-10.png)
+>![alt text](img/image-10.png)
 
 Le backend de collaboration **dev-acd.tfstates** a bien été créé.
-![alt text](image-11.png)
+>![alt text](img/image-11.png)
 
 6. Test de Nginx depuis un navigateur
 
 On peut voir que Nginx est bien accessible via l'EIP public.
 
-![alt text](image-12.png)
+>![alt text](img/image-12.png)
 *Serveur web Nginx*
 
 7. Contrôle des apps installées sur l'instance
@@ -402,7 +402,7 @@ Une fois connecté au serveur via la commande
 ssh -i devops-aCD.pem ubuntu@<public_ip>
 nginx -v && docker version && git version
 ````
-![alt text](image-13.png)
+>![alt text](img/image-13.png)
 *Les apps Nginx, Docker et Git sont bien installées*
 
 
@@ -499,7 +499,7 @@ terraform init
 ````
 
 Sortie console
-![alt text](image-14.png)
+>![alt text](img/image-14.png)
 *Sortie console après **terraform init***
 
 2. Vérification de la cohérence de l'IaC
@@ -508,7 +508,7 @@ terraform validate
 ````
 
 Sortie console
-![alt text](image-15.png)
+>![alt text](img/image-15.png)
 *Sortie console après **terraform validate***
 
 3. Planification des ressources
@@ -517,7 +517,7 @@ terraform plan
 ````
 
 Sortie console
-![alt text](image-16.png)
+>![alt text](img/image-16.png)
 *Sortie console après **terraform plan***
 
 4. Provisionnement de l'infrastructure
@@ -526,18 +526,18 @@ terraform apply
 ````
 
 Sortie console
-![alt text](image-17.png)
+>![alt text](img/image-17.png)
 *Sortie console après **terraform apply***
 
 5. Rendu/Résultat du provisionnement
-![alt text](image-18.png)
+>![alt text](img/image-18.png)
 *Instance de prod en cours*
 
-![alt text](image-19.png)
+>![alt text](img/image-19.png)
 *Stockage EBS provisionné*
 
 6. Test de Nginx depuis un navigateur
-![alt text](image-20.png)
+>![alt text](img/image-20.png)
 *Réponse du serveur web Nginx*
 
 7. Vérification des versions des apps installées sur l'instance
@@ -548,7 +548,7 @@ ssh -i devops-aCD.pem ubuntu@<public_ip>
 nginx -v && docker version && git version
 ````
 
-![alt text](image-21.png)
+>![alt text](img/image-21.png)
 *Versions installées des apps Nginx, Docker et Git*
 
 ## Conclusion

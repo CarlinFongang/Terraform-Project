@@ -171,11 +171,11 @@ output "ec2_az_output" {
 *Contenu du fichier **outputs.tf***
 
 ### 2. Module "ebs-module"
-Un Elastic Block Store (EBS) d'Amazon Web Services (AWS) est un système de stockage de volumes persistant, conçu pour une utilisation avec les instances EC2. Il offre des performances de stockage hautement disponibles et fiables pour les applications nécessitant des accès fréquents et rapides aux données. 
+Un Elastic Block Store (EBS) d'Amazon Web Services (AWS) est un système de stockage de volumes persistant, conçu pour une utilisation avec les instances EC2. Il offre des performances de stockage hautement disponibles et fiables pour les applications nécessitant des accès fréquents et rapides aux données.
 
-Dans notre infrastructure (IaC) via Terraform, intégrer EBS comme module permet une gestion et une automatisation cohérentes de ces volumes de stockage, assurant que les ressources sont provisionnées de manière répétable et sans erreur humaine. Simplifiant ainsi les déploiements et la maintenance.
+Dans notre infrastructure (IaC) via Terraform, intégrer EBS comme module permet une gestion et une automatisation cohérentes de ces volumes de stockage, assurant que les ressources sont provisionnées de manière répétable et sans erreur humaine, simplifiant ainsi les déploiements et la maintenance.
 
-Pour configurer ce module, nous allons : 
+Pour configurer ce module, nous allons :
 
 Rajouter le dossier **ebs-module** dans le dossier **modules**
 
@@ -184,14 +184,14 @@ mkdir ebs-module
 cd ebs-module
 ````
 
-une fois dans le dossier **ebs-module**, on va créer 2 fichiers
+Une fois dans le dossier **ebs-module**, on va créer 2 fichiers
 
 ````bash
 touch main.tf variables.tf
 ````
 
-### 2.1. Description de "variable.tf"
-Ce manifeste Terraform définit les variables pour configurer un volume EBS (Elastic Block Store) dans AWS. Il spécifie la zone de disponibilité (`az_ebs`), la taille (`size_ebs`), le type (`type_ebs`, avec une valeur par défaut 'gp2'), le nom (`name_ebs`), et l'identifiant de l'instance EC2 (`ec2_id_ebs`) auquel le volume sera attaché, ainsi que le nom du périphérique (`device_name_ebs`) utilisé pour l'attacher à l'instance. Ce manifeste sert de pattern pour personnaliser les propriétés des volumes EBS lors de leur création et de leur montage sur des instances EC2.
+### 2.1. Description de "variables.tf"
+Ce manifeste Terraform définit les variables pour configurer un volume EBS (Elastic Block Store) dans AWS. Il spécifie la zone de disponibilité (`az_ebs`), la taille (`size_ebs`), le type (`type_ebs`, avec une valeur par défaut 'gp2'), le nom (`name_ebs`), et l'identifiant de l'instance EC2 (`ec2_id_ebs`) auquel le volume sera attaché, ainsi que le nom du périphérique (`device_name_ebs`) utilisé pour l'attacher à l'instance. Ce manifeste sert de modèle pour personnaliser les propriétés des volumes EBS lors de leur création et de leur montage sur des instances EC2.
 
 ````bash
 #ebs-module variables
@@ -220,14 +220,14 @@ variable "device_name_ebs" {
   description = "The device name to attach the EBS volume to"
 }
 ````
-**Contenu du ficher **variables.tf***
+**Contenu du fichier **variables.tf***
 
 
 ### 2.2. Description de "main.tf"
 
-Ce fichier définit deux ressources pour travailler avec AWS EBS (Elastic Block Store). 
+Ce fichier définit deux ressources pour travailler avec AWS EBS (Elastic Block Store).
 
-1. La première ressource, `aws_ebs_volume`, crée un nouveau volume EBS dans une zone de disponibilité spécifique, avec une taille et un type définis, et lui attribue un nom à travers les tags. 
+1. La première ressource, `aws_ebs_volume`, crée un nouveau volume EBS dans une zone de disponibilité spécifique, avec une taille et un type définis, et lui attribue un nom à travers les tags.
 
 2. La seconde ressource, `aws_volume_attachment`, attache ce volume EBS à une instance EC2 spécifique, utilisant un nom de périphérique donné. L'option `force_detach` permet de s'assurer que le volume peut être détaché de l'instance EC2 sans interaction manuelle lors de la destruction de la ressource.
 
@@ -253,11 +253,13 @@ resource "aws_volume_attachment" "ebs_attach_ressource" {
 ````
 
 ### 3. Module "eip-module"
-Un Elastic IP (EIP) est une adresse IP statique offerte par AWS pour une gestion dynamique des adresses internet. 
+Un Elastic IP (EIP) est une adresse IP statique offerte par AWS pour une gestion dynamique des adresses internet.
 
-Dans notre cas, avec Terraform, utiliser un EIP comme module permet d'attribuer une adresse IP fixe et publique aux ressources cloud, notemment notre instances EC2, garantissant ainsi une connectivité réseau fiable et facilement identifiable. Cela facilite les scénarios où une adresse IP constante est nécessaire, comme pour les serveurs web ou les systèmes nécessitant un accès externe constant comme **Ansible** par exemple. Le module **"epi-module"** assure que la configuration est reproductible, et intégrée dans le cycle de vie global de l'infrastructure cloud.
+Dans notre cas, avec Terraform, utiliser un EIP comme module permet d'attribuer une adresse IP fixe et publique aux ressources cloud, notamment nos instances EC2, garantissant ainsi une connectivité réseau fiable et facilement identifiable. Cela facilite les scénarios où une adresse IP constante est nécessaire, comme pour les serveurs web
 
-Pour configurer ce module, nous allons : 
+ ou les systèmes nécessitant un accès externe constant comme **Ansible**, par exemple. Le module **"eip-module"** assure que la configuration est reproductible et intégrée dans le cycle de vie global de l'infrastructure cloud.
+
+Pour configurer ce module, nous allons :
 
 Rajouter le dossier **eip-module** dans le dossier **modules**
 
@@ -266,7 +268,7 @@ mkdir eip-module
 cd eip-module
 ````
 
-une fois dans le dossier **eip-module**, on va créer 3 fichiers
+Une fois dans le dossier **eip-module**, on va créer 3 fichiers
 
 ````bash
 touch main.tf variables.tf outputs.tf
@@ -275,27 +277,26 @@ touch main.tf variables.tf outputs.tf
 ### 3.1. Description de "variables.tf"
 Ce fichier Terraform définit deux variables pour la configuration d'une infrastructure cloud.
 
-1. La première variable, `ec2_id`, stocke l'identifiant d'une instance EC2 (un serveur virtuel dans AWS), ce qui permet de référencer cette instance spécifique pour différentes opérations. 
+1. La première variable, `ec2_id`, stocke l'identifiant d'une instance EC2 (un serveur virtuel dans AWS), ce qui permet de référencer cette instance spécifique pour différentes opérations.
 
 2. La seconde variable, `eip_name`, représente le nom attribué à une adresse IP élastique (EIP), servant à identifier de manière unique cette ressource pour une gestion plus aisée. Ces variables sont utilisées pour personnaliser et relier les ressources dans le cadre de déploiements cloud automatisés.
 
 ````bash
 variable "ec2_id" {
-  description = "The id of ec2 instance running"
+  description = "The ID of the EC2 instance running"
 }
 
 variable "eip_name" {
-  description = "The name tag of eip"
+  description = "The name tag of the EIP"
 }
 ````
-*Contenu du fichier **variable.tf***
+*Contenu du fichier **variables.tf***
 
 ### 3.2. Description de "main.tf"
 
-Ce code crée une adresse IP élastique (EIP) sur AWS, qui sera attribuer à l'instance EC2, représentée ici par `var.ec2_id`.
-La varible **ec2_id** est surchagé plus tard lors de l'appel de la ressource par la valeur de l'id pour issu de l'output (**ec2_id_output**) du module **ec2-module**.
+Ce code crée une adresse IP élastique (EIP) sur AWS, qui sera attribuée à l'instance EC2, représentée ici par `var.ec2_id`. La variable **ec2_id** est surchargée plus tard lors de l'appel de la ressource par la valeur de l'ID issu de l'output (**ec2_id_output**) du module **ec2-module**.
 
- Cette EIP permet à l'instance de communiquer avec l'extérieur du réseau privé virtuel (VPC). En plus, l'EIP est étiquetée avec un nom, `var.eip_name`, pour faciliter son identification et sa gestion dans AWS.
+Cette EIP permet à l'instance de communiquer avec l'extérieur du réseau privé virtuel (VPC). En plus, l'EIP est étiquetée avec un nom, `var.eip_name`, pour faciliter son identification et sa gestion dans AWS.
 
 ````bash
 #ec2-module outputs
@@ -313,11 +314,11 @@ output "ec2_az_output" {
 
 Ce code définit des sorties pour une ressource d'adresse IP élastique (EIP) créée sur AWS.
 
-1. La première sortie, `eip_output`, renvoie l'adresse IP publique de l'EIP, permettant ainsi de connaître l'adresse externe attribuée à une instance EC2. 
+1. La première sortie, `eip_output`, renvoie l'adresse IP publique de l'EIP, permettant ainsi de connaître l'adresse externe attribuée à une instance EC2.
 
 2. La seconde sortie, `eip_name_output`, renvoie les tags (étiquettes) associés à cette EIP, y compris le nom donné à l'EIP.
 
-Ces informations de sortie seront utilisées pour référencer l'adresse IP et les tags de l'EIP dans dans les environnement de provionnement dev et prod.
+Ces informations de sortie seront utilisées pour référencer l'adresse IP et les tags de l'EIP dans les environnements de provisionnement dev et prod.
 
 ````bash
 output "eip_output" {
@@ -331,180 +332,8 @@ output "eip_name_output" {
 *Contenu du **outputs.tf***
 
 
-
-### 4. Module "sg-module"
-Un Security Group (SG) dans AWS agit comme un pare-feu virtuel pour vos instances EC2, contrôlant le trafic entrant et sortant selon des règles spécifiées. 
-
-Dans notre configuration, l'utilisation d'un security group comme module permet de standardiser et automatiser la configuration de la sécurité pour les ressources dans le cloud.
-
-Cela garantit que toutes les instances ou services déployés respectent une politique de sécurité cohérente, réduisant ainsi le risque de vulnérabilités dues à des configurations manuelles erronées. Cela permet également de modulariser les SG dans Terraform, ce qui facilite la réutilisation des configurations de sécurité entre différents projets ou environnements, améliorant l'efficacité et la conformité de la sécurité dans l'ensemble de l'infrastructure.
-
-Pour configurer ce module, nous allons : 
-
-Rajouter le dossier **sg-module** dans le dossier **modules**
-
-````bash
-mkdir sg-module
-cd sg-module
-````
-
-une fois dans le dossier **sg-module**, on va créer 3 fichiers
-
-````bash
-touch main.tf variables.tf outputs.tf
-````
-
-### 4.1. Description de "variables.tf"
-Ce manifeste définit deux variables pour configurer un groupe de sécurité (SG) dans le cloud. 
-
-1. La première variable, `name_sg`, permet de définir le nom du groupe de sécurité, facilitant son identification. 
-
-2. La seconde, `port_sg`, est une liste de numéros de ports, comme 22 (SSH), 80 (HTTP) et 443 (HTTPS), qui spécifie quels ports seront ouverts et accessibles sur les instances ou services protégés par le groupe de sécurité. Ces configurations aident à contrôler l'accès réseau pour assurer la sécurité des ressources cloud.
-
-````bash
-variable "name_sg" {
-  type        = string
-  description = "set sg name"
-  default     = "aCD-sg"
-}
-
-variable "port_sg" {
-  type    = list(number)
-  default = [22, 80, 443]
-}
-````
-*Contenu du **variables.tf***
-
-### 4.1. Description de "main.tf"
-Ce code crée un groupe de sécurité AWS (Security Group) nommé selon la variable `name_sg`, conçu pour autoriser le trafic entrant (inbound) et sortant (outbound) pour des ports spécifiques.
-
-La partie "ingress" configure les règles d'entrée pour permettre le trafic sur les ports listés dans `var.port_sg` (typiquement pour le web, comme HTTP et HTTPS), de n'importe quelle adresse IP. 
-
-Similairement, la section "egress" établit des règles de sortie pour les mêmes ports, permettant au trafic de sortir librement. Le bloc "dynamic" est utilisé pour appliquer ces règles à chaque port spécifié dans la liste `var.port_sg`, rendant la configuration flexible et réutilisable.
-
-````bash
-resource "aws_security_group" "protocol_ressource_sg" {
-  name        = var.name_sg
-  description = "Allow HTTP and HTTPS inbound traffic and all outbound traffic"
-
-  dynamic "ingress" {
-    for_each = var.port_sg
-    content {
-      description = "ingress port ${ingress.value}"
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-
-  dynamic "egress" {
-    for_each = var.port_sg
-    content {
-      description = "egress port ${egress.value}"
-      from_port   = egress.value
-      to_port     = egress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-}
-````
-*Contenu du **main.tf***
-
-### 4.1. Description de "outputs.tf"
-Cet output sera nécessaire pour la surchage de la variable `sg_att_id` qui est l'attribut "ID" du groupe de sécurité dans le modue **"ec2-module"** rattaché à l'instance au moment de sa création.
-
-````bash
-output "output_sg_id" {
-  value = aws_security_group.protocol_ressource_sg.id
-}
-````
-*Contenu du **outputs.tf***
-
-
-### 4. Provionnement de l'infra et deploiement de nginx et docker
-
-#### 4.1 Description de l'IaC pour l'environnement de dev.
-
-Pour notre environnment de dev, afin de bien isolé les script de provisionnement, nous allons créer un repertoire **dev/** dans le projet **terraform-project**
-
-````bash
-mkdir terraform-project/dev
-cd terraform-project/dev
-````
-
-dans ce nouveau repertoire nous allons crée un fichier **main.tf** qui nous permettra de lancer le provisionnement de notre infrastructure en environnement de dev.
-
-Notons que pour notre envionnement de **dv**, nous surchagerons les différent tags possible avec une expression du type **dev-aCD-<ressource>**
-
-et le type d'instace préféré ici sera un **t2.micro** contre le **t2.nano** configuré par défaut dans le module **ec2-module**
-
-##### Description du **main.tf**
-Ce manifeste Terraform configure une infrastructure AWS comprenant une instance EC2, un volume EBS, une adresse IP élastique (EIP) et un groupe de sécurité (SG). 
-
-Il spécifie la région et les informations d'authentification pour AWS, stocke l'état de l'infrastructure dans un bucket S3, et utilise des modules pour chaque composant pour faciliter la réutilisation et l'organisation. 
-
-Enfin, il utilise `null_resource` pour exporter certaines informations de l'infrastructure dans un fichier externe ici nommé **info_dev_aCD.txt**.
-
-````bash
-provider "aws" {
-  region     = "us-east-1"
-  access_key = "AKIARTIMPR2LYBKQX6VT"
-  secret_key = "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"
-}
-
-terraform {
-  backend "s3" {
-    bucket = "backend-acd"
-    key = "dev-acd.tfstates"
-    region = "us-east-1"
-    access_key = "AKIARTIMPR2LYBKQX6VT"
-    secret_key = "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"
-  }
-}
-
-module "ec2_instance" {
-  source = "../modules/ec2-module"
-  instance_type = "t2.micro"
-  sg_att_id = module.sg.output_sg_id
-  aws_ec2_tag = {
-    Name = "dev-aCD-ec2"
-  }
-}
-
-module "ebs_volume" {
-  source       = "../modules/ebs-module"
-  az_ebs       = module.ec2_instance.ec2_az_output  
-  size_ebs     = 8.0  
-  type_ebs     = "gp2"  
-  name_ebs     = "dev-aCD-ebs"
-  ec2_id_ebs   = module.ec2_instance.ec2_id_output 
-  device_name_ebs = "/dev/sdf"
-}
-
-module "eip_address" {
-  source = "../modules/eip-module"
-  eip_name = "dev-aCD-eip"
-  ec2_id = module.ec2_instance.ec2_id_output
-}
-
-resource "null_resource" "export_info" {
-    provisioner "local-exec" {
-    command = "echo PUBLIC IP : ${module.eip_address.eip_output}; ID: ${module.ec2_instance.ec2_id_output}; AZ: ${module.ec2_instance.ec2_az_output} > info_dev_aCD.txt"
-  }  
-}
-
-module "sg" {
-  source = "../modules/sg-module"
-  name_sg = "dev-aCD-sg"
-}
-````
-*Contenu du fichier **main.tf***
-
-
-#### 4.2. Provisionnemenet de l'environnement de dev.
-1. Initialisation de terraform et téléchargmement des plugins
+#### 4.2. Provisionnement de l'environnement de dev.
+1. Initialisation de Terraform et téléchargement des plugins
 ````bash
 cd terraform-project/dev
 terraform init
@@ -521,16 +350,16 @@ terraform validate
 
 Sortie console 
 ![alt text](image-4.png)
-*Sortie console **terraform validate***
+*Sortie console après **terraform validate***
 
-3. Planinfication des ressource
+3. Planification des ressources
 ````bash
 terraform plan
 ````
 
 Sortie console 
 ![alt text](image-5.png)
-*Sortie console **terraform plan***
+*Sortie console après **terraform plan***
 
 4. Provisionnement de l'infrastructure
 ````bash
@@ -545,54 +374,53 @@ Sortie console
 *Fin du provisionnement*
 
 
-5. Rendu/Resultat du provisonnement 
+5. Rendu/Résultat du provisionnement 
 
-L'instance à bien été crée avec les caractéristiques attendues
-**t2.micro**, **key pair** défini, **ami** défini et autres
+L'instance a bien été créée avec les caractéristiques attendues : **t2.micro**, **key pair** défini, **AMI** défini et autres.
 ![alt text](image-8.png)
-*ec2 en cours d'exécution*
+*EC2 en cours d'exécution*
 
-Le stockage de type **ebs** de 8.0 Go à bien été crée
+Le stockage de type **EBS** de 8.0 Go a bien été créé.
 ![alt text](image-9.png)
 
-L'eip avec le tag **dev-aCD-eip** à bien été crée
+L'EIP avec le tag **dev-aCD-eip** a bien été créé.
 ![alt text](image-10.png)
 
-Le backend de collaboration **dev-acd.tfstates** à bien été crée
+Le backend de collaboration **dev-acd.tfstates** a bien été créé.
 ![alt text](image-11.png)
 
-6. Test de nginx depuis un navigateur
+6. Test de Nginx depuis un navigateur
 
-On peux voir que nginx est bien accéssible via l'eip public
+On peut voir que Nginx est bien accessible via l'EIP public.
 
 ![alt text](image-12.png)
-*Serveur web nginx*
+*Serveur web Nginx*
 
-7. Controle des app installé sur l'instance
+7. Contrôle des apps installées sur l'instance
 Une fois connecté au serveur via la commande 
 ````bash
 ssh -i devops-aCD.pem ubuntu@<public_ip>
 nginx -v && docker version && git version
 ````
 ![alt text](image-13.png)
-*Les app nginx, docker et git sont bien installées*
+*Les apps Nginx, Docker et Git sont bien installées*
 
 
 #### 4.3. Description de l'IaC pour l'environnement de production.
-Pour le deploiement en production, nous allons reproduire le contenu du repertoire **terraform-project/dev**, le contenu sera copié vers **terraform-project/prod** et nous y allons apporter des ajustement propre à l'environnement de prod : 
+Pour le déploiement en production, nous allons reproduire le contenu du répertoire **terraform-project/dev**, le contenu sera copié vers **terraform-project/prod** et nous y apporterons des ajustements propres à l'environnement de prod : 
 
 1. La sécurité
-Pour des raisons de bonne pratique, exporter les access key et secret key dans des variables d'environnement afin de ne plus avoir ces identifiants d'authentification en claire dans notre code
+Pour des raisons de bonne pratique, exportez les access key et secret key dans des variables d'environnement afin de ne plus avoir ces identifiants d'authentification en clair dans notre code.
 
-Se placer dans le repertoire de production après avoir copie le main de la **dev** vers **prod**
+Se placer dans le répertoire de production après avoir copié le main de la **dev** vers **prod**
 ````bash 
 cd terraform-project/prod
 export AWS_ACCESS_KEY_ID="AKIAYXE474GNA65A4LLN"
 export AWS_SECRET_ACCESS_KEY="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"
 ````
-Une fois les commandes entrée, il n'y a aucune sortie sur le terminale, ce qui signifi que l'export c'est bien déroulé.
+Une fois les commandes entrées, il n'y a aucune sortie sur le terminal, ce qui signifie que l'export s'est bien déroulé.
 
-On va ensuite supprimer les access et secret key écrient en claire dans le manifest, on obtiens : 
+On va ensuite supprimer les access et secret key écrits en clair dans le manifest, on obtient : 
 
 ````bash
 provider "aws" {
@@ -607,12 +435,12 @@ terraform {
   }
 }
 ````
-terraform ira chercher automatiquement les informations d'authentification dasn les variable d'environnement exporté plus haut.
+Terraform ira chercher automatiquement les informations d'authentification dans les variables d'environnement exportées plus haut.
 
-2. Modification des tags vers **prod-aCD-<prefix>**
-dans l'ensemble du **main.tf** dans le dossier de production, nous allons renseigner le tags correspondant à la production afin d'identifier plus aisement les ressources lié à la production sur aws.
+2. Modification des tags vers **prod-aCD-<préfixe>**
+Dans l'ensemble du **main.tf** dans le dossier de production, nous allons renseigner les tags correspondant à la production afin d'identifier plus aisément les ressources liées à la production sur AWS.
 
-On obtiens le code ci-dessous : 
+On obtient le code ci-dessous :
 
 ````bash
 provider "aws" {
@@ -622,34 +450,34 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "backend-acd-1"
-    key = "prod-acd.tfstates"
-    region = "us-east-1" 
+    key    = "prod-acd.tfstates"
+    region = "us-east-1"
   }
 }
 
 module "ec2_instance" {
-  source = "../modules/ec2-module"
+  source        = "../modules/ec2-module"
   instance_type = "t3.medium"
-  sg_att_id = module.sg.output_sg_id
-  aws_ec2_tag = {
+  sg_att_id     = module.sg.output_sg_id
+  aws_ec2_tag   = {
     Name = "prod-aCD-ec2"
   }
 }
 
 module "ebs_volume" {
   source       = "../modules/ebs-module"
-  az_ebs       = module.ec2_instance.ec2_az_output  
-  size_ebs     = 8.0  
-  type_ebs     = "gp2"  
+  az_ebs       = module.ec2_instance.ec2_az_output
+  size_ebs     = 8.0
+  type_ebs     = "gp2"
   name_ebs     = "prod-aCD-ebs"
-  ec2_id_ebs   = module.ec2_instance.ec2_id_output 
+  ec2_id_ebs   = module.ec2_instance.ec2_id_output
   device_name_ebs = "/dev/sdf"
 }
 
 module "eip_address" {
   source = "../modules/eip-module"
   eip_name = "prod-aCD-eip"
-  ec2_id = module.ec2_instance.ec2_id_output
+  ec2_id   = module.ec2_instance.ec2_id_output
 }
 
 resource "null_resource" "export_info" {
@@ -664,33 +492,33 @@ module "sg" {
 }
 ````
 
-#### 4.4. Provisionnemenet de l'environnement de prod.
-1. Initialisation de terraform et téléchargmement des plugins
+#### 4.4. Provisionnement de l'environnement de prod.
+1. Initialisation de Terraform et téléchargement des plugins
 ````bash
 terraform init
 ````
 
 Sortie console
 ![alt text](image-14.png)
-*Sortie console **terraform init***
+*Sortie console après **terraform init***
 
-2. Vérification de la cohérence du l'IaC
+2. Vérification de la cohérence de l'IaC
 ````bash
 terraform validate
 ````
 
 Sortie console
 ![alt text](image-15.png)
-*Sortie console **terraform validate***
+*Sortie console après **terraform validate***
 
-3. Planinfication des ressource
+3. Planification des ressources
 ````bash
 terraform plan
 ````
 
 Sortie console
 ![alt text](image-16.png)
-*Sortie console **terraform plan***
+*Sortie console après **terraform plan***
 
 4. Provisionnement de l'infrastructure
 ````bash
@@ -699,21 +527,21 @@ terraform apply
 
 Sortie console
 ![alt text](image-17.png)
-*Sortie console **terraform apply***
+*Sortie console après **terraform apply***
 
-5. Rendu/Resultat du provisonnement 
+5. Rendu/Résultat du provisionnement
 ![alt text](image-18.png)
-*instance de prod en cours*
+*Instance de prod en cours*
 
 ![alt text](image-19.png)
-*Stockage ebs provisionné*
+*Stockage EBS provisionné*
 
-6. Test de nginx depuis un navigateur
+6. Test de Nginx depuis un navigateur
 ![alt text](image-20.png)
-*Reponse du serveur web nginx*
+*Réponse du serveur web Nginx*
 
-7. Vérification des versions des app installés sur l'instance
-une fois connecté à l'instance de prod via ssh 
+7. Vérification des versions des apps installées sur l'instance
+Une fois connecté à l'instance de prod via SSH
 
 ````bash
 ssh -i devops-aCD.pem ubuntu@<public_ip>
@@ -721,7 +549,7 @@ nginx -v && docker version && git version
 ````
 
 ![alt text](image-21.png)
-*Version installée des app nginx, docker et git*
+*Versions installées des apps Nginx, Docker et Git*
 
 ## Conclusion
 Nous avons pu mettre en place une IaC grâce à Terraform, qui est l'un des outils par excellence pour ce type de tâche. Les ressources que nous avons pu déployer nous ont permis d'exploiter la notion de **module** avec les **outputs** ainsi que les dépendances explicites, afin de rendre ce code réutilisable pour tout autre projet nécessitant une infrastructure similaire. À noter qu'il est possible de réaliser des infrastructures plus complexes, à haute disponibilité et résilientes avec Terraform.

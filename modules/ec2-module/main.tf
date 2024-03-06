@@ -20,7 +20,7 @@ resource "aws_instance" "ec2_ressource" {
   connection {
     type = "ssh"
     user = "ubuntu"
-    private_key = file("C:/Users/Kusuka.fr/OneDrive - data5tb/Formations/BootCamp DevOps 17/cursus-devops/Terraform/terraform-project/secret/devops-aCD.pem")
+    private_key = file("../secret/devops-aCD.pem")
     host = self.public_ip
     }
   }

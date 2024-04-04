@@ -8,7 +8,7 @@ Surname : FONGANG
 
 Email : fongangcarlin@gmail.com
 
-><img src="https://media.licdn.com/dms/image/C4E03AQEUnPkOFFTrWQ/profile-displayphoto-shrink_400_400/0/1618084678051?e=1710979200&v=beta&t=sMjRKoI0WFlbqYYgN0TWVobs9k31DBeSiOffAOM8HAo" width="50" height="50" alt="Carlin Fongang"> 
+><img src="https://i.pinimg.com/280x280_RS/6b/68/be/6b68bed191fdd2fad36e4193e64764ee.jpg" width="50" height="50" alt="Carlin Fongang">
 >
 >[LinkedIn](https://www.linkedin.com/in/carlinfongang/) | [GitLab](https://gitlab.com/carlinfongang) | [GitHub](https://githut.com/carlinfongang) | [Credly](https://www.credly.com/users/carlin-fongang/badges)
 
